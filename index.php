@@ -9,32 +9,87 @@
 <body>
     <pre>
         <?php
-            class Caneta{
-                public $modelo;
-                private $ponta;
-                public function __construct($modelo, $ponta)
+            class ContaBanco{
+                public $numero;
+                protected $tipo;
+                private $dono;
+                private $saldo;
+                private $status;
+                public function __construct()
                 {
-                    $this->modelo = $modelo;
-                    $this->ponta = $ponta;
+                    $this->saldo = 0;
+                    $this->status = false;
                 }
-                public function getModelo(){
-                    return $this->modelo;
+                public function getnumConta(){
+                    return $this->numero;
                 }
-                public function setModelo($m){
-                    $this->modelo = $m;
+                public function setnumConta($num){
+                    $this->numero = $num;
                 }
-                public function getPonta(){
-                    return $this->ponta;
+                public function gettipoConta(){
+                    return $this->tipo;
                 }
-                public function setPonta($p){
-                    $this->ponta = $p;
+                public function settipoConta($tipo){
+                    $this->tipo = $tipo;
+                }
+                public function getDono(){
+                    return $this->dono;
+                }
+                public function setDono($dono){
+                    $this->dono = $dono;
+                }
+                public function getSaldo(){
+                    return $this->saldo;
+                }
+                public function setSaldo($saldo){
+                    $this->saldo = $saldo;
+                }
+                public function abrirConta($tipo){
+                    $this->status = true;
+                    if($tipo == "cc"){
+                        $this->tipo = $tipo;
+                        $this->saldo = $this->getSaldo() + 50; 
+                    }elseif($tipo == "cp"){
+                        $this->tipo = $tipo;
+                        $this->saldo = $this->getSaldo() + 150;
+                    }
+                    else{
+                        echo"Tipo de conta inválido, escolha cc para conta corrente ou cp para conta poupança";
+                    }
+                }
+                public function fecharConta(){
+                    if($this->saldo == 0){
+                       $this->status = false; 
+                    }else{
+                        echo"Não é possivel encerrar a conta!";
+                    }
+                }
+                public function depositar($valor){
+                    if($this->status == true){
+                        $this->setSaldo($this->getSaldo() + $valor);
+                    }else{
+                        echo"É necessário abrir a conta primeiro";
+                    }
+                }
+                public function sacar($valor){
+                    if($this->status == true){
+                        if($this->saldo >= $valor){
+                            $this->setSaldo($this->getSaldo() - $valor);
+                        }else{
+                            echo"Não é possível sacar este valor, o seu saldo é".$this->getSaldo();
+                        }
+                    }else{
+                        echo "É necessário abrir a conta primeiro";
+                    }
+                }
+                public function pagarMensal(){
+                    if($this->tipo == "cc"){
+                        $this->saldo = $this->saldo - 12;
+                    }elseif($this->tipo == "cp"){
+                        $this->saldo = $this->saldo - 20;
+                    }
                 }
             }
-            $c1 = new Caneta("BIC", 1.5);
-            $c2 = new Caneta("Faber Castel", 0.7);
-            print_r($c1);
-            print_r($c2);
-            print $c1->getPonta();
         ?>
     </pre>
 </body>
