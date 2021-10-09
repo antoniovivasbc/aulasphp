@@ -9,87 +9,89 @@
 <body>
     <pre>
         <?php
-            class ContaBanco{
-                public $numero;
-                protected $tipo;
-                private $dono;
-                private $saldo;
-                private $status;
-                public function __construct()
+            interface Controlador{
+                public function ligar();
+                public function desligar();
+                public function maisVolume();
+                public function menosVolume();
+                public function ligarMudo();
+                public function desligarMudo();
+                public function play();
+                public function pause();
+            }
+            class ControleRemoto implements Controlador{
+                private $volume;
+                private $ligado;
+                private $tocando;
+                function __construct()
                 {
-                    $this->saldo = 0;
-                    $this->status = false;
+                    $this->volume = 50;
+                    $this->ligado = false;
+                    $this->tocando = false;
                 }
-                public function getnumConta(){
-                    return $this->numero;
+                private function getVolume(){
+                    return $this->volume;
                 }
-                public function setnumConta($num){
-                    $this->numero = $num;
+                private function setVolume($v){
+                    $this->volume = $v;
                 }
-                public function gettipoConta(){
-                    return $this->tipo;
+                private function getLigado(){
+                    return $this->ligado;
                 }
-                public function settipoConta($tipo){
-                    $this->tipo = $tipo;
+                private function setLigado($l){
+                    $this->ligado = $l;
                 }
-                public function getDono(){
-                    return $this->dono;
+                private function getTocando(){
+                    return $this->tocando;
                 }
-                public function setDono($dono){
-                    $this->dono = $dono;
+                private function setTocando($t){
+                    $this->tocando = $t;
                 }
-                public function getSaldo(){
-                    return $this->saldo;
+                public function ligar(){
+                    $this->setLigado(true);
                 }
-                public function setSaldo($saldo){
-                    $this->saldo = $saldo;
+                public function desligar(){
+                    $this->setLigado(false);
                 }
-                public function abrirConta($tipo){
-                    $this->status = true;
-                    if($tipo == "cc"){
-                        $this->tipo = $tipo;
-                        $this->saldo = $this->getSaldo() + 50; 
-                    }elseif($tipo == "cp"){
-                        $this->tipo = $tipo;
-                        $this->saldo = $this->getSaldo() + 150;
-                    }
-                    else{
-                        echo"Tipo de conta inválido, escolha cc para conta corrente ou cp para conta poupança";
-                    }
-                }
-                public function fecharConta(){
-                    if($this->saldo == 0){
-                       $this->status = false; 
+                public function maisVolume(){
+                    if($this->getLigado()){
+                        $this->setVolume($this->getVolume() - 1);
                     }else{
-                        echo"Não é possivel encerrar a conta!";
+                        echo "Ligue a tv primeiro";
                     }
                 }
-                public function depositar($valor){
-                    if($this->status == true){
-                        $this->setSaldo($this->getSaldo() + $valor);
+                public function menosVolume(){
+                    if($this->getLigado()){
+                        $this->setVolume($this->getVolume() - 1);
                     }else{
-                        echo"É necessário abrir a conta primeiro";
+                        echo"Ligue a tv primeiro";
                     }
                 }
-                public function sacar($valor){
-                    if($this->status == true){
-                        if($this->saldo >= $valor){
-                            $this->setSaldo($this->getSaldo() - $valor);
-                        }else{
-                            echo"Não é possível sacar este valor, o seu saldo é".$this->getSaldo();
-                        }
-                    }else{
-                        echo "É necessário abrir a conta primeiro";
+                public function ligarMudo(){
+                    if($this->getLigado() && $this->getVolume() > 0){
+                        $this->setVolume(0);
                     }
                 }
-                public function pagarMensal(){
-                    if($this->tipo == "cc"){
-                        $this->saldo = $this->saldo - 12;
-                    }elseif($this->tipo == "cp"){
-                        $this->saldo = $this->saldo - 20;
+                public function desligarMudo(){
+                    if($this->getLigado() && $this->getVolume() == 0){
+                        $this->setVolume(50);
+                    }
+                }
+                public function play(){
+                    if($this->getLigado() && !$this->getTocando()){
+                        $this->setTocando(true);
+                    }
+                }
+                public function pause(){
+                    if($this->getLigado() && $this->getTocando()){
+                        $this->setTocando(false);
                     }
                 }
             }
+            $c1 = new ControleRemoto;
+            $c1->ligar();
+            $c1->play();
+            print_r($c1);
         ?>
     </pre>
 </body>
