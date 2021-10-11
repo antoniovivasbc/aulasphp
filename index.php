@@ -9,173 +9,131 @@
 <body>
     <pre>
         <?php
-            class Lutador{
+            class pessoa{
                 private $nome;
-                private $nacionalidade;
                 private $idade;
-                private $altura;
-                private $peso;
-                private $categoria;
-                private $vitorias;
-                private $derrotas;
-                private $empates;
-                public function __construct($no, $na, $id, $al, $pe, $vi, $de, $em)
+                private $sexo;
+                function __construct($nome, $idade, $sexo)
                 {
-                    $this->nome = $no;
-                    $this->nacionalidade = $na;
-                    $this->idade = $id;
-                    $this->altura = $al;
-                    $this->setPeso($pe);
-                    $this->vitorias = $vi;
-                    $this->derrotas = $de;
-                    $this->empates = $em;
+                    $this->nome = $nome;
+                    $this->idade = $idade;
+                    $this->sexo = $sexo;
                 }
                 public function getNome(){
                     return $this->nome;
                 }
-                public function setNome($n){
+                private function setNome($n){
                     $this->nome = $n;
-                }
-                public function getNacionalidade(){
-                    return $this->nacionalidade;
-                }
-                public function setNacionalidade($nacio){
-                    $this->nacionalidade = $nacio;
                 }
                 public function getIdade(){
                     return $this->idade;
                 }
-                public function setIdade($i){
+                private function setIdade($i){
                     $this->idade = $i;
                 }
-                public function getPeso(){
-                    return $this->peso;
+                public function getSexo(){
+                    return $this->sexo;
                 }
-                public function setPeso($p){
-                    $this->peso = $p;
-                    $this->setCategoria();
+                private function setSexo($s){
+                    $this->sexo = $s;
                 }
-                public function getCategoria(){
-                    return $this->categoria;
-                }
-                private function setCategoria(){
-                    if($this->peso < 52.2 || $this->peso >  120.2){
-                        echo"Inválido";
-                    }elseif($this->peso <= 70.3){
-                        $this->categoria = "leve";
-                    }elseif($this->peso <= 83.9){
-                        $this->categoria = "Médio";
-                    }elseif($this->peso <= 120.2){
-                        $this->categoria = "Pesado";
-                    }
-                }
-                public function getVitorias(){
-                    return $this->vitorias;
-                }
-                public function setVitorias($vi){
-                    $this->vitorias = $vi;
-                }
-                public function getDerrotas(){
-                    return $this->derrotas;
-                }
-                public function setDerrotas($de){
-                    $this->derrotas = $de;
-                }
-                public function getEmpates(){
-                    return $this->empates;
-                }
-                public function setEmpates($em){
-                    $this->empates = $em;
-                }
-                public function apresentar(){
-                    echo"<p> Lutador ".$this->getNome()." de ".$this->getNacionalidade()." idade ".$this->getIdade()." e pesa ".$this->getPeso().
-                    " com ".$this->getVitorias()." vitorias e ".$this->getDerrotas()." derrotas e empatou ".$this->getEmpates()." lutas ";
-                }
-                public function status(){
-                    echo"<p> Lutador".$this->getNome()."da categoria".$this->getCategoria().
-                    "com".$this->getVitorias()."vitorias e".$this->getDerrotas()."derrotas e empatou".$this->getEmpates()."lutas"; 
-                }
-                public function ganharLuta(){
-                    $this->setVitorias($this->getVitorias() + 1);
-                }
-                public function perderLuta(){
-                    $this->setDerrotas($this->getDerrotas() + 1);
-                }
-                public function empatarLuta(){
-                    $this->setEmpates($this->getEmpates() + 1);
+                public function fazerAniversario(){
+                    $this->setIdade($this->getIdade() + 1);
                 }
             }
-            $l = array();
-            $l[0] = new Lutador("Tonio", "BR", 20, 1.65, 75.5, 98, 1, 2); 
-            $l[1] = new Lutador("Kamilla", "Mongolia", 21, 1.67, 75, 1 , 98, 2);
-            class Luta{
-                private $desafiado;
-                private $desafiante;
-                private $rounds;
-                private $aprovada;
-                public function getDesafiado(){
-                    return $this->desafiado;
+            interface publicacao{
+                public function abrir();
+                public function fechar();
+                public function folhear($p);
+                public function avancarPag();
+                public function voltarPag();
+            }
+            class livro implements publicacao{
+                private $titulo;
+                private $autor;
+                private $totPaginas;
+                private $pagAtual;
+                private $aberto;
+                private $leitor;
+                function __construct($titulo, $autor, $totPaginas, $leitor)
+                {
+                    $this->titulo = $titulo;
+                    $this->autor = $autor;
+                    $this->totPaginas = $totPaginas;
+                    $this->aberto = false;
+                    $this->pagAtual = 0;
+                    $this->leitor = $leitor;
                 }
-                public function setDesafiado($desafiado){
-                    $this->desafiado = $desafiado;
+                public function getTitulo(){
+                    return $this->titulo;
                 }
-                public function getDesafiante(){
-                    return $this->desafiante;
+                private function setTitulo($t){
+                    $this->titulo = $t;
                 }
-                public function setDesafiante($desafiante){
-                    $this->desafiante = $desafiante;
+                public function getAutor(){
+                    return $this->autor;
                 }
-                public function getRounds(){
-                    return $this->rounds;
+                private function setAutor($a){
+                    $this->autor = $a;
                 }
-                public function setRounds($rounds){
-                    $this->rounds = $rounds;
+                public function getTotPaginas(){
+                    return $this->totPaginas;
                 }
-                public function getAprovada(){
-                    return $this->aprovada;
+                private function setTotPaginas($p){
+                    $this->totPaginas = $p;
                 }
-                public function setAprovada($aprovada){
-                    $this->aprovada = $aprovada;
+                public function getPagAtual(){
+                    return $this->pagAtual;
                 }
-                public function marcarLuta($l1, $l2){
-                    if($l1->getCategoria() === $l2->getCategoria() && $l1 != $l2){
-                        $this->desafiado = $l1;
-                        $this->desafiante = $l2;
-                        $this->setAprovada(true);
-                    }
-                    else{
-                        $this->desafiado = null;
-                        $this->desafiante = null;
-                        $this->aprovada = false;
-                    }
-                }
-                public function lutar(){
-                    if($this->getAprovada()){
-                        $this->desafiante->apresentar();
-                        $this->desafiado->apresentar();
-                        $vencedor = rand(0,2);
-                        switch($vencedor){
-                            case 0: 
-                                $this->desafiante->empatarLuta();
-                                $this->desafiado->empatarLuta();
-                                break;
-                            case 1:
-                                $this->desafiante->perderLuta();
-                                $this->desafiado->ganharLuta();
-                                break;
-                            case 2:
-                                $this->desafiante->ganharLuta();
-                                $this->desafiado->perderLuta();
-                                break;
-                        }
+                public function setPagAtual($p){
+                    if($p > $this->getTotPaginas()){
+                        echo"O livro vai até a página ".$this->getTotPaginas();
                     }else{
-                        echo"A luta não foi aprovada";
+                        $this->pagAtual = $p;
                     }
                 }
+                public function getAberto(){
+                    return $this->aberto;
+                }
+                public function setAberto($boolean){
+                    $this->aberto = $boolean;
+                }
+                public function getLeitor(){
+                    return $this->leitor;
+                }
+                public function setLeitor($l){
+                    $this->leitor = $l;
+                }
+                public function abrir(){
+                    $this->setAberto(true);
+                }
+                public function fechar(){
+                    $this->setAberto(false);
+                }
+                public function folhear($p){
+                    $this->setPagAtual($p);
+                }
+                public function avancarPag(){
+                    $this->setPagAtual($this->getPagAtual() + 1);
+                }
+                public function voltarPag(){
+                    $this->setPagAtual($this->getPagAtual() - 1);
+                }
+                public function detalhes(){
+                    echo "Livro".$this->getTitulo()." escrito por ".$this->getAutor();
+                    echo "<br> Páginas: ".$this->getTotPaginas()." atual ".$this->getPagAtual();
+                    echo "<br> Sendo lido por ".$this->leitor->getNome();
+                }
             }
-            $luta1 = new Luta();
-            $luta1->marcarLuta($l[0], $l[1]);
-            $luta1->lutar();
+            $p = array();
+            $p[0] = new pessoa("Tonio", 20, "Masculino");
+            $p[1] = new pessoa("Caça Rato", 20, "Masculino");
+            $l = array();
+            $l[0] = new livro("Titulo do livro 1", "Euzinho", 100, $p[0]);
+            $l[1] = new livro("Titulo do livro 2", "outra pessoa", 75, $p[1]);
+            $l[0]->folhear(15);
+            $l[0]->avancarPag();
+            $l[0]->detalhes();  
         ?>
     </pre>
 </body>
