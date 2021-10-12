@@ -9,120 +9,123 @@
 <body>
     <pre>
         <?php
-            abstract class Pessoa{
-                private $nome;
-                private $idade;
-                private $sexo;
-                function __construct($nome, $idade, $sexo)
+            abstract class Animal{
+                protected $peso;
+                protected $idade;
+                protected $membros;
+                function __construct($peso, $idade, $membros)
                 {
-                    $this->nome = $nome;
+                    $this->peso = $peso;
                     $this->idade = $idade;
-                    $this->sexo = $sexo;
+                    $this->membros = $membros;
                 }
-                public function getNome(){
-                    return $this->nome;
+                function getPeso(){
+                    return $this->peso;
                 }
-                private function setNome($n){
-                    $this->nome = $n;
+                function setPeso($p){
+                    $this->peso = $p;
                 }
-                public function getIdade(){
+                function getIdade(){
                     return $this->idade;
                 }
-                private function setIdade($i){
+                function setIdade($i){
                     $this->idade = $i;
                 }
-                public function getSexo(){
-                    return $this->sexo;
+                function getMembros(){
+                    return $this->membros;
                 }
-                private function setSexo($s){
-                    $this->sexo = $s;
+                function setMembros($m){
+                    $this->membros = $m;
                 }
-                final public function fazerAniversario(){
-                    $this->setIdade($this->getIdade() + 1);
+                abstract function locomover();
+                abstract function alimentar();
+                abstract function emitirSom();
+            }
+            class Mamifero extends Animal{
+                private $corPelo;
+                function getCorPelo(){
+                    return $this->corPelo;
+                }
+                function setCorPelo($p){
+                    $this->corPelo = $p;
+                }
+                function locomover(){
+                    echo "Correndo";
+                }
+                function alimentar(){
+                    echo"Mamando";
+                }
+                function emitirSom(){
+                    echo "Som de Mamífero";
                 }
             }
-            class Aluno extends Pessoa{
-                private $matricula;
-                private $curso;
-                function getMatricula(){
-                    return $this->matricula;
+            class Reptil extends Animal{
+                private $corEscama;
+                function getCorEscama(){
+                    return $this->corEscama;
                 }
-                function setMatricula($m){
-                    $this->matricula = $m;
+                function setCorEscama($e){
+                    $this->corEscama = $e;
                 }
-                function getCurso(){
-                    return $this->curso;
+                function locomover(){
+                    echo "Rastejando";
                 }
-                function setCurso($c){
-                    $this->curso = $c;
+                function alimentar(){
+                    echo"Comendo vegetais";
                 }
-                function cancelarMatricula(){
-                    $this->setMatricula(false);
-                    echo"Matricula será cancelada";
+                function emitirSom(){
+                    echo "Som de Réptil";
                 }
-                function pagarMensalidade(){
-                    echo "Mensalidade foi paga!";
+                
+            }
+            class Peixe extends Animal{
+                private $corEscama;
+                function getCorEscama(){
+                    return $this->corEscama;
+                }
+                function setCorEscama($e){
+                    $this->corEscama = $e;
+                }
+                function locomover(){
+                    echo "Nadando";
+                }
+                function alimentar(){
+                    echo"Comendo substâncias";
+                }
+                function emitirSom(){
+                    echo "Som de Peixe";
+                }
+                function soltarBolhas(){
+                    echo "Soltou bolhas";
                 }
             }
-            class Professor extends Pessoa{
-                private $especialidade;
-                private $salario;
-                function getEspecialidade(){
-                    return $this->especialidade;
+            class Ave extends Animal{
+                private $corPenas;
+                function getCorPenas(){
+                    return $this->corPenas;
                 }
-                function setEspecialidade($e){
-                    $this->especialidade = $e;
+                function setCorPenas($p){
+                    $this->corPenas = $p;
                 }
-                function getSalario(){
-                    return $this->salario;
+                function locomover(){
+                    echo "Voando";
                 }
-                function setSalario($s){
-                    $this->salario = $s;
+                function alimentar(){
+                    echo"Comendo Frutas";
                 }
-                function receberAumento($aum){
-                    $this->salario = $this->getSalario() + $aum;
+                function emitirSom(){
+                    echo "Som de Ave";
                 }
-            }
-            final class Funcionario extends Pessoa{
-                private $setor;
-                private $trabalhando;
-                function getSetor(){
-                    return $this->setor;
-                }
-                function setSetor($s){
-                    $this->setor = $s;
-                }
-                function getTrabalhando(){
-                    return $this->trabalhando;
-                }
-                function setTrabalhando($boolean){
-                    $this->trabalhando = $boolean;
-                }
-                function mudarTrabalho($boolean){
-                    $this->trabalhando = $boolean;
+                function fazerNinho(){
+                    echo "Construindo o ninho";
                 }
             }
-            class Bolsista extends Aluno{
-                private $bolsa;
-                function getBolsa(){
-                    return $this->bolsa;
-                }
-                function setBolsa($b){
-                    $this->bolsa = $b;
-                }
-                function renovarBolsa(){
-                    echo"Bolsa renovada";
-                }
-                function pagarMensalidade(){
-                    echo "O aluno ".$this->getNome()." é bolsista, então paga com desconto";
+            class Canguru extends Mamifero{
+                function locomover()
+                {
+                    echo"Pulando";
                 }
             }
-            $p2 = new Aluno("Kamilla", 21, "Feminino");
-            $p3 = new Professor("Caça rato", 20, "Home");
-            $p4 = new Funcionario("Yasmine", 23, "Mulé");
-            $p2->setMatricula(1234);
-            print_r($p1);
-            print_r($p2);
         ?>
     </pre>
 </body>
